@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Edson Batista">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD USER</title>
+</head>
+<body>
+    <!-- LOOSE COOPLING - acoplamento fraco -->
+    <script>
+        let arrUsers = []
+        function showMenu() {
+            return parseInt(prompt(
+                ` 
+                  ******** MENU ***********
+                  [1] -> cadastrar usuario
+                  [2] -> Visualizar usuario
+                  [3] -> Atualizar usuario
+                  [4] -> Deletar usuario
+                  [5] -> sair do programa
+                  `
+                ));
+            }
+
+            // metodo POST metodo para cadastrar
+            function addUser() {
+                const nome = prompt("Informe seu nome de ususario: ");
+                const email = prompt("Informe seu email de ususario: ");
+                // mesma coisa ! == ""
+                if (nome == "" || email == "") {
+                    alert("O nome e email são obrigatórios")
+                    return addUser();// cria um loop pois vai voltar para a funçao add usuario
+                }
+
+                arrUsers.push({nome, email});
+                // console.log(arrUsers);
+            }
+            // addUser();
+
+            // metodo de loistagem de usuario => (verbo HTTP: GET)
+            function listUser() {
+                let listUser = "";
+
+                arrUsers.forEach((dataUser)=>{
+                    listUser += `\nNome: ${dataUser.nome}, Email: ${dataUser.email}`                   
+                })
+                alert("Lista de usuarioas cadastrados " + listUser);
+                
+            }
+            
+            //metodo de atualizar usuario => (verbo HTTP: PUT)
+            function updateUserInfo() {
+                const findEmail = prompt("Informe o email que você deseja atualizar: ")
+                
+                //metodo para verificar email digitado
+                const usuarioEncontrado = arrUsers.find(user => 
+                    user.email === findEmail,
+                    alert("Usuario encontrado")
+                )
+
+                //se não localizar cai nessa validação
+                if (!usuarioEncontrado) {
+                    alert("não encontrei nada")
+                    return;
+                }
+
+            //se deu tudo certo vai pedir para digitar o novo nome e email
+            const novoNome = prompt("Insira o novo nome");
+            const novoEmail = prompt("Insira o novo email");
+            
+            //substitui o nome antigo pelo novo
+            if (novoNome) {
+                usuarioEncontrado.nome = novoNome;
+            }
+            //substitui o email antigo pelo novo
+            if(novoEmail){
+                usuarioEncontrado.email = novoEmail;
+            }
+
+            alert("Usuario atualizado com sucesso!")
+                
+            }
+
+            //metodo delete => (verbo HTTP: DELETE)
+            function deleteUser() {
+                const emailDelete = prompt("Informe o email que você deseja excluir: ")
+                
+                //metodo para verificar email digitado
+                const emailDeleteFind = arrUsers.findIndex((email => 
+                    email.email === emailDelete)
+                )
+
+                if (emailDeleteFind === -1) {
+                    alert("Usuario não encontrado")
+                    return
+                }
+
+                const confirm = window.confirm("Deseja remover o usuario " + emailDelete + "?")
+                //se não localizar cai nessa validação
+                if (confirm) {
+                    arrUsers.splice(emailDeleteFind,1);
+                    alert("Usuario removido com sucesso!");
+                }
+                            
+            }
+            let loopBreak = true;
+
+            while (loopBreak) {
+                
+                switch (showMenu()) {
+                    case 1:
+                        addUser();
+                        break;
+                    case 2:
+                        listUser();
+                        break;
+                    case 3:
+                        updateUserInfo();
+                        break;
+                    case 4:
+                        deleteUser();
+                        break;
+                    
+                    case 5:
+                        alert("Saindo do programa")
+                        loopBreak = false;
+                        break;
+                        
+                        default:
+                            alert("Opção invalida")
+                            break;
+                        }
+                    }
+                        </script>
+    
+</body>
+</html>

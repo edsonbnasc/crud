@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Edson Batista">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda</title>
+</head>
+<body>
+    <script>
+        
+        // array global da agenda
+        let agenda = []
+
+        function menu() {
+            return parseInt(prompt(
+                `
+                ******* AGENDA *********
+                [1] -> Criar contato
+                [2] -> Visualizar contatos
+                [3] -> Excluir contato
+                [4] -> Editar contato
+                [5] -> SAIR 
+                `
+            ))
+        }
+
+        
+        // adicionar contato a agenda
+        function adicionar() {
+            var dataAtual = new Date();
+            var dia = dataAtual.getDate();
+            var mes = (dataAtual.getMonth() + 1);
+            var ano = dataAtual.getFullYear();
+            var horas = dataAtual.getHours();
+            var minutos = dataAtual.getMinutes(2);
+            var segundos = dataAtual.getSeconds(2);
+            var dataFormatada = "Cadastrado em: " + dia + "/" + mes + "/" + ano + ". Horário: " + horas + ":" + minutos+":"+segundos;
+
+
+            const nome = prompt("Digite o nome: ")
+            const phone = prompt("Digite o numero de telefone: ")
+            const email = prompt("Digite o email: ")
+            
+            if (nome == "" || phone == "" || email == "") {
+                alert("Preencha todos os campos nome, numero e email")
+                return adicionar();
+            }
+
+            agenda.push({nome, phone, email, dataFormatada})
+            
+        }
+
+
+        // visualizar contatos da agenda
+        function visualizar() {
+            let contatos = ""
+            agenda.forEach((v) => {
+                contatos += `\nnome: ${v.nome} numero: ${v.phone} email: ${v.email}\n${v.dataFormatada}\n-------------------------------------------------- `
+            });
+            alert("Lista de CONTATOS: " + contatos)
+        }
+        
+        // excluir contatos da agenda
+        function excluir() {
+            let sair = true
+            const deletar = parseInt(prompt("Digite 1 para excluir telefone 2 para excluir email ou 3 para SAIR"))
+            
+            while (sair) {
+                switch (deletar) {
+                    case 1:
+                        deletarTelefone();
+                        return
+                        break;
+                
+                    case 2:
+                        deletarEmail();
+                        return
+                        break;
+                    case 3:
+                        return 
+                        break;
+                
+                    default:
+                        alert("OPÇÃO INVALIDA")
+                        return
+                        break;
+                }
+                
+            }
+
+            function deletarTelefone() {
+                const deletarTelefone = prompt("Digite o telefone que deseja deletar")
+                
+                const deletarTelefoneFind = agenda.findIndex((telefone=>
+                    telefone.phone === deletarTelefone
+                ))
+                console.log(deletarTelefoneFind);
+               
+                if (deletarTelefoneFind === -1) {
+                    alert("Telefone não encontrado")
+                    return
+                }
+    
+                const confirm = window.confirm("Deseja realmente excluir o telefone: " +deletarTelefone+" ?")
+    
+                if (confirm) {
+                    agenda.splice(deletarTelefoneFind,1)
+                    alert("Telefone excluido")
+                }
+                
+            }
+    
+            function deletarEmail() {
+                const deletarEmail = prompt("Digite o email que deseja deletar")
+    
+                const deletarEmailFind = agenda.findIndex((email=>
+                    email.email === deletarEmail
+                ))
+    
+                if (deletarEmailFind === -1) {
+                    alert("Email não localizado")
+                    return
+                }
+    
+                const confirm = window.confirm("Deseja excluir o email: "+deletarEmail+" ?")
+    
+                if (confirm) {
+                    agenda.splice(deletarEmailFind,1)
+                    alert("Email deletado com sucesso")
+                }
+                
+            }
+        }
+
+        
+        //editar contato da agenda
+        function editar() {
+            const editar = prompt("Informe o telefone que deseja editar: ")
+
+            const telefoneEncontrado = agenda.find((telefone=>
+                telefone.phone === editar
+            ))
+            // console.log(telefoneEncontrado);
+            
+            
+            if (!telefoneEncontrado) {
+                alert("Usuario não encontrado")
+                return;
+            } 
+            alert("Usuario localizado")
+        
+        
+            const nnome = prompt("Digite o nome: ")
+            const nphone = prompt("Digite o numero de telefone: ")
+            const nemail = prompt("Digite o email: ")  
+        
+        if(nnome) {
+            telefoneEncontrado.nome = nnome;
+            telefoneEncontrado.phone = nphone;
+            telefoneEncontrado.email = nemail;
+        }
+
+        alert("Usuario atualizado com sucesso!")
+    
+        }
+        
+        let loop = true
+
+        while (loop) {
+            switch (menu()) {
+                case 1:
+                    adicionar();
+                    break;
+                case 2:
+                    visualizar();
+                    break;
+                case 3:
+                    excluir();
+                    break;
+                case 4:
+                    editar();
+                    break;
+                case 5:
+                    alert("Saindo da Agenda")
+                    loop = false;
+                    break;
+            
+                default:
+                    alert("OPÇÃO INVALIDA TENTE NOVAMENTE")
+                    break;
+                }    
+        }
+        
+        
+        // menu();
+
+
+
+    </script>
+    
+</body>
+</html>
