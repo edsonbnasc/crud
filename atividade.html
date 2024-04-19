@@ -29,13 +29,8 @@
         // adicionar contato a agenda
         function adicionar() {
             var dataAtual = new Date();
-            var dia = dataAtual.getDate();
-            var mes = (dataAtual.getMonth() + 1);
-            var ano = dataAtual.getFullYear();
-            var horas = dataAtual.getHours();
-            var minutos = dataAtual.getMinutes(2);
-            var segundos = dataAtual.getSeconds(2);
-            var dataFormatada = "Cadastrado em: " + dia + "/" + mes + "/" + ano + ". Horário: " + horas + ":" + minutos+":"+segundos;
+            
+            var dataFormatada = ("Cadastrado em: "+dataAtual.toLocaleString());
 
 
             const nome = prompt("Digite o nome: ")
@@ -64,7 +59,12 @@
         // excluir contatos da agenda
         function excluir() {
             let sair = true
-            const deletar = parseInt(prompt("Digite 1 para excluir telefone 2 para excluir email ou 3 para SAIR"))
+            const deletar = parseInt(prompt(
+                `Digite 
+                [1] para excluir telefone 
+                [2] para excluir email 
+                [3] para SAIR
+                `))
             
             while (sair) {
                 switch (deletar) {
